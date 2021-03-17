@@ -13,6 +13,9 @@ public abstract class Piece {
         return color;
     }
 
+    public boolean sameColor(Piece dest) {
+    	return color.equals(dest.getColor());
+    }
     /*
      * public String toString() { return color; }
      */

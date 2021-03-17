@@ -21,6 +21,10 @@ public class Square {
         return this.col;
     }
     
+    public Piece getPiece() {
+    	return piece;
+    }
+    
     public String toString() {
         return piece.toString();
     }

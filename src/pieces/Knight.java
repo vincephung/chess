@@ -15,7 +15,13 @@ public class Knight extends Piece{
         int colDistance = Math.abs(cur.getCol() - dest.getCol()); 
         
         
-        return ((rowDistance == 1 && colDistance == 2) || (rowDistance ==2 && colDistance ==1));
+        if((rowDistance == 1 && colDistance == 2) || (rowDistance ==2 && colDistance ==1)) {
+        	//can jump over pieces in path so only worried about dest having same color
+        	return cur.getPiece().sameColor(dest.getPiece());
+        }
+        else {
+        	return false;
+        }
     }
     
     public String toString() {
