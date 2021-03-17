@@ -27,24 +27,50 @@ public class Pawn extends Piece {
             if (rowDistance != direction && rowDistance != twoSteps) {
                 return false;
             }
-            //pawns can only go diagonally in one step
-            if(rowDistance == twoSteps && colDistance != 0) {
+            // pawns can only go diagonally in one step
+            if (rowDistance == twoSteps && colDistance != 0) {
                 return false;
             }
             firstMove = false;
         } else {
-            //checks if pawn only moved one spot and in correct direction
+            // checks if pawn only moved one spot and in correct direction
             if (rowDistance != direction) {
                 return false;
             }
         }
-        
-        //checks for diagonal move
+
+        // checks for diagonal move
         if (colDistance != direction && colDistance != 0) {
             return false;
         }
-        
+
         return true;
+    }
+
+    public boolean enpassant() {
+        return true;
+    }
+
+    public Piece promotion(char type,String color) {
+        Piece newPiece = null;
+        switch (Character.toUpperCase(type)) {
+        case 'B':
+            newPiece = new Bishop(color);
+            break;
+        case 'N':
+            newPiece = new Knight(color);
+            break;
+        case 'Q':
+            newPiece = new Queen(color);
+            break;
+        case 'R':
+            newPiece = new Rook(color);
+            break;
+        default:
+            newPiece = new Queen(color);
+            break;
+        }
+        return newPiece;
     }
 
     public String toString() {
