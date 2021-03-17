@@ -33,6 +33,9 @@ public class Game {
             return false;
         }
         
+        //check to make sure dest isn't of same color
+        if(destPiece != null && curPiece.sameColor(destPiece)) return false;
+        
         // check if this piece can make this type of move.
         boolean validMove = curPiece.validMove(board, curSquare, destSquare);
         

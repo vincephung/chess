@@ -4,6 +4,8 @@ import chess.Square;
 
 public class King extends Piece{
 
+	public boolean hasMoved = false;
+	
     public King(String color) {
         super(color);
         // TODO Auto-generated constructor stub
@@ -22,7 +24,7 @@ public class King extends Piece{
         
     }
     
-    public void cast() {
+    public void isCastling(Square[][] board, Square cur, Square dest) {
         
     }
     
