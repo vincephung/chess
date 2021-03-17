@@ -15,7 +15,7 @@ public class Rook extends Piece{
         int colDistance = Math.abs(cur.getCol() - dest.getCol());        
         
         //can't land on piece of same color
-        if(cur.getPiece().sameColor(dest.getPiece())) return false;
+       // if(cur.getPiece().sameColor(dest.getPiece())) return false;
         
         //Rook can only move in one direction
         if((rowDistance != 0 && colDistance ==0) || (rowDistance == 0 && colDistance != 0)){

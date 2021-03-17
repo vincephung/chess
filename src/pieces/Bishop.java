@@ -15,7 +15,7 @@ public class Bishop extends Piece {
         int colDistance = Math.abs(cur.getCol() - dest.getCol());
         
         //if piece at dest has same color then move is illegal
-        if(cur.getPiece().sameColor(dest.getPiece())) return false;
+        //if(cur.getPiece().sameColor(dest.getPiece())) return false;
         
         if(rowDistance == 0 || colDistance == 0) {
             return false;
