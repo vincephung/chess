@@ -1,8 +1,10 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import pieces.King;
+import pieces.Knight;
 import pieces.Pawn;
 import pieces.Piece;
 
@@ -48,15 +50,40 @@ public class Game {
                 
                 Square curSquare = board[curRow-1][curCol];
                 Square destSquare = board[destRow-1][destCol];
-                boolean validMove = movePiece(board,curSquare,destSquare);
+                Piece curPiece = curSquare.piece;
+                Piece destPiece = destSquare.piece;
+                Square kingSquare = kingLocation(board,curPiece.getColor());
 
+/*
+ *                 boolean validMove = canMove(board,curSquare,destSquare);
                 if(!validMove) {
                     System.out.println("Illegal move, try again");
                     continue;
                 }
                 
+
+                
+                //moves piece if move was considered valid
+                movePiece(board,curSquare,destSquare);
+
+                //Check if this move put the cur player's king in check
+                //UNDO move if true
+                if(isCheck(board,kingSquare)) {
+                    curSquare.piece = curPiece;
+                    destSquare.piece = destPiece;
+                    System.out.println("Illegal move, try again");
+                    continue;
+                }
+        */
+                if(!simulateMove(board,curSquare,destSquare)) {
+                    System.out.println("Illegal move, try again");
+                    continue;
+                }
+                
+                //moves piece if move was considered valid
+                movePiece(board,curSquare,destSquare);
+                
                 // handle promotion
-                Piece curPiece = curSquare.piece;
                 if (curPiece instanceof Pawn) {
                     promotion((Pawn) curPiece, destSquare, promotionType);
                 }
@@ -66,7 +93,7 @@ public class Game {
             }
         }
         
-    public boolean movePiece(Square[][] board, Square curSquare, Square destSquare) {
+    public boolean canMove(Square[][] board, Square curSquare, Square destSquare) {
 
         int curCol = curSquare.getCol();
         int curRow = curSquare.getRow();
@@ -99,24 +126,16 @@ public class Game {
         
         // check if this piece can make this type of move.
         boolean validMove = curPiece.validMove(board, curSquare, destSquare);
-        
-        if (!validMove) return false;
 
-        // move current piece to new square
-        Piece tempPiece = destSquare.piece; //temp piece for undoing move
-        destSquare.piece = curSquare.piece;
-        curSquare.piece = null;
-        
-        //Check if this move puts the cur player's king in check
-        //UNDO move if true
-        Square kingSquare = kingLocation(board,curPiece.getColor());
-        if(isCheck(board,kingSquare)) {
-            curSquare.piece = destSquare.piece;
-            destSquare.piece = tempPiece;
-            return false;
-        }
+        if (!validMove) return false;
         
         return true;
+    }
+    
+    // move current piece to new square
+    public void movePiece(Square[][] board,Square curSquare, Square destSquare) {
+        destSquare.piece = curSquare.piece;
+        curSquare.piece = null;
     }
     
     //locates the player's king
@@ -152,37 +171,165 @@ public class Game {
     public boolean isCheck(Square[][] board, Square kingSquare) {
         //Loops the entire board and sees if a piece can attack the king's square
         //could shorten this by only using opponent's pieces
-        
         for(int i = 0; i < 8; i++) {
             for(int j = 0; j < 8; j++) {
                 Square curSquare = board[i][j];
-                boolean validAttack = movePiece(board,curSquare,kingSquare);
-                if(validAttack) {
+                if(canMove(board,curSquare,kingSquare)) {
                     return true;
                 }
             }
         }
         return false;
     }
+    
     public boolean isCheckmate(Square[][] board, Square kingSquare) {
         //needs to check which color is in checkmate
         
-        int top = 1, right = 1;
-        int bottom = -1, left = -1;
         int curRow = kingSquare.getRow();
         int curCol = kingSquare.getCol();
+        int top = curRow + 1;
+        int bottom = curRow -1;
+        int right = curCol + 1;
+        int left = curCol -1;
         
-        //check if the king can move out of check itself
-        if(movePiece(board,kingSquare,board[curRow+top][curCol+left])) return false;
-        if(movePiece(board,kingSquare,board[curRow+top][curCol])) return false;
-        if(movePiece(board,kingSquare,board[curRow+top][curCol+right])) return false;
-        if(movePiece(board,kingSquare,board[curRow][curCol+right])) return false;
-        if(movePiece(board,kingSquare,board[curRow+bottom][curCol+right])) return false;
-        if(movePiece(board,kingSquare,board[curRow+bottom][curCol])) return false;
-        if(movePiece(board,kingSquare,board[curRow+bottom][curCol+left])) return false;
-        if(movePiece(board,kingSquare,board[curRow][curCol+left])) return false;
+        //attempts to move king in every direction to get out of check
+        if(simulateMove(board,kingSquare,board[top][left])) return false;
+        if(simulateMove(board,kingSquare,board[top][curCol])) return false;
+        if(simulateMove(board,kingSquare,board[top][right])) return false;
+        if(simulateMove(board,kingSquare,board[curRow][right])) return false;
+        if(simulateMove(board,kingSquare,board[bottom][right])) return false;
+        if(simulateMove(board,kingSquare,board[bottom][curCol])) return false;
+        if(simulateMove(board,kingSquare,board[bottom][left])) return false;
+        if(simulateMove(board,kingSquare,board[curRow][left])) return false;
 
+       // ArrayList<Square> attackSquares = attackSquares(board,kingSquare);
+        Piece curPiece = kingSquare.piece;
+        //get cur player's squares
+        ArrayList<Square> playerSquares = boardClass.getSquares(curPiece.getColor());
+                
+        //block attack squares
+        //You cannot block more than one attack square
+       /* if(attackSquares.size() == 1) {
+            Square atkSq = attackSquares.get(0);
+            //loop through cur player's pieces and try to block the atk square
+            for(Square curSq : playerSquares) {
+                //if you can block the atk sq and king is no longer in check return false
+                if(canMove(board,curSq,atkSq)) {
+                    //temporarily move piece
+                    movePiece(board,curSq,atkSq);
+                    if(!isCheck(board,kingSquare)) {
+                        //revert move
+                        movePiece(board,atkSq,curSq);
+                        return false;
+                    }
+                    //revert move
+                    movePiece(board,atkSq,curSq);
+                }
+            }
+        }
+        */
         
+        
+        ArrayList<Square> attackers = getKingAttackers(board,kingSquare);
+        //check if you can capture the attacking piece
+        //can only capture one piece
+        if(attackers.size() == 1) {
+            Square atkSq = attackers.get(0);
+            for(Square curSq : playerSquares) {
+                //if you can capture atk sq and king is no longer in check return false
+                if(canMove(board,curSq,atkSq)) {
+                    //temporarily move piece
+                    movePiece(board,curSq,atkSq);
+                    
+                    //check if king piece moved
+                    Square checkSquare = kingSquare;
+                    if(!(kingSquare.piece instanceof King)) {
+                        checkSquare = atkSq;
+                    }
+                    //king no longer in check
+                    if(!isCheck(board,checkSquare)) {
+                        //revert move
+                        movePiece(board,atkSq,curSq);
+                        return false;
+                    }
+                    //revert move
+                    movePiece(board,atkSq,curSq);
+                }
+            }
+        }
+ 
         return true;
+    }
+    
+    /*
+    //returns the square 1 space around the current square that can be attacked
+    private ArrayList<Square> attackSquares(Square[][] board, Square curSquare){
+        ArrayList<Square> list = new ArrayList<>();
+        int curRow = curSquare.getRow();
+        int curCol = curSquare.getCol();
+        
+        int top = curRow + 1;
+        int bottom = curRow -1;
+        int right = curCol + 1;
+        int left = curCol -1;
+        
+        //Knights might need to be excluded because they cannot be blocked
+        //pawns too?
+        
+        //this logic is messed up because it doesnt have to be 1 spot around
+        //you could block anywhere
+        if(curSquare.piece instanceof Knight) {
+            
+        }
+        
+        //call check/attack on all squares around current square
+        if(isCheck(board,board[top][left])) list.add(board[top][left]);
+        if(isCheck(board,board[top][curCol])) list.add(board[top][curCol]);
+        if(isCheck(board,board[top][right])) list.add(board[top][right]);
+        if(isCheck(board,board[curRow][right])) list.add(board[curRow][right]);
+        if(isCheck(board,board[bottom][right])) list.add(board[bottom][right]);
+        if(isCheck(board,board[bottom][curCol])) list.add(board[bottom][curCol]);
+        if(isCheck(board,board[bottom][left])) list.add(board[bottom][left]);
+        if(isCheck(board,board[curRow][left])) list.add(board[curRow][left]);
+
+        return list;
+    }
+    */
+    
+    private ArrayList<Square> getKingAttackers(Square[][] board, Square curSquare){
+        ArrayList<Square> list = new ArrayList<>();
+        String enemyColor = (curSquare.piece.getColor().equals("w")) ? "b" : "w"; 
+        ArrayList<Square> enemySquares = boardClass.getSquares(enemyColor);
+        
+        for(Square attacker : enemySquares) {
+            if(canMove(board,attacker,curSquare)) {
+                list.add(attacker);
+            }
+        }
+
+        return list;
+    }
+    
+    private boolean simulateMove(Square[][]board, Square curSquare, Square destSquare) {
+        //combines canMove and isCheck
+        //Basically if a piece moves and the king is NOT in check
+        //Technically this should be called "valid move"
+
+        Square kingSquare = kingLocation(board,curSquare.piece.getColor());
+        
+        if(!canMove(board,curSquare,destSquare)) return false;
+        
+        movePiece(board,curSquare,destSquare);
+        
+        if(isCheck(board,kingSquare)) {
+            //reverts move
+            movePiece(board,destSquare,curSquare);
+            return false;
+        }
+        //reverts move
+        movePiece(board,destSquare,curSquare);   
+        return true;
+        
+        
     }
 }

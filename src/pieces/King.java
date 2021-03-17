@@ -38,9 +38,8 @@ public class King extends Piece{
     	if(dest.getPiece() != null) {
     		return cur.getPiece().sameColor(dest.getPiece());
     	}
-    	else {
-    		return true;
-    	}
+    	
+		return false;
     }
 
 

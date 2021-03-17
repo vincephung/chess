@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.ArrayList;
+
 import pieces.Bishop;
 import pieces.King;
 import pieces.Knight;
@@ -75,5 +77,19 @@ public class Board {
 
     public boolean move(int start, int finish) {
         return false;
+    }
+    
+    //Get current player's squares
+    public ArrayList<Square> getSquares(String color){
+        ArrayList<Square> list = new ArrayList<>();
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                Square curSquare = board[i][j];
+                if(curSquare.piece!= null && curSquare.piece.getColor().equals(color)) {
+                    list.add(curSquare);
+                }
+            }
+        }
+        return list;
     }
 }
