@@ -1,9 +1,11 @@
 package pieces;
 
+import chess.Board;
 import chess.Square;
 
 public class Pawn extends Piece {
     boolean firstMove = true;
+    boolean enpassant = false;
 
     public Pawn(String color) {
         super(color);
@@ -11,7 +13,10 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean validMove(Square[][] board, Square cur, Square dest) {
+    public boolean validMove(Board boardClass, Square cur, Square dest) {
+    	
+    	Square[][] board = boardClass.board;
+    	
         boolean isWhite = this.getColor().equals("w");
         // white pawns can only move up, black pawns can only move down
         int direction = (isWhite) ? 1 : -1;
@@ -26,7 +31,24 @@ public class Pawn extends Piece {
         if(rowDistance / direction < 0) return false;
         
         //check for diagonal first
-        if(Math.abs(rowDistance) == 1 && Math.abs(colDistance) == 1 && dest.getPiece() != null) {
+        if(Math.abs(rowDistance) == 1 && Math.abs(colDistance) == 1) {
+        	//check for enpassant
+        	if(dest.getPiece() == null) {
+        		if(boardClass.getEnpassant() != null && boardClass.getEnpassant().equals(dest)) {
+        			//captured piece will be behind
+        			Square captured = board[dest.getRow()-direction][dest.getCol()];
+        			if(captured != null && captured.getPiece() != null && captured.getPiece() instanceof Pawn) {
+        				captured.setPiece(null);
+        				return true;
+        			}
+        			else {
+        				return false;
+        			}
+        		}
+        		else {
+        			return false;
+        		}
+        	}
         	//make sure dest is of other color
         	return !dest.getPiece().sameColor(cur.getPiece());
         }
@@ -36,6 +58,8 @@ public class Pawn extends Piece {
         	if(firstMove) {
         		if(!pathBlocked(board, cur, dest)) {
         			firstMove = false;
+        			//mark enpassant as true for passed over space
+        			boardClass.setEnpassant(board[dest.getRow()-direction][dest.getCol()]);
         			return true;
         		}
         		else return false;
@@ -76,10 +100,6 @@ public class Pawn extends Piece {
         if(dest.getPiece() != null) return true;
         
         return false;
-    }
-
-    public boolean enpassant() {
-        return true;
     }
 
     public Piece promotion(char type, String color) {

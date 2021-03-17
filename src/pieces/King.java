@@ -1,5 +1,6 @@
 package pieces;
 
+import chess.Board;
 import chess.Square;
 
 public class King extends Piece{
@@ -12,7 +13,10 @@ public class King extends Piece{
     }
 
     @Override
-    public boolean validMove(Square[][] board, Square cur, Square dest) {        
+    public boolean validMove(Board boardClass, Square cur, Square dest) {
+    	
+    	Square[][] board = boardClass.board;
+    	
         int rowDistance = Math.abs(cur.getRow() - dest.getRow());
         int colDistance = Math.abs(cur.getCol() - dest.getCol());
         
@@ -39,7 +43,7 @@ public class King extends Piece{
     		return cur.getPiece().sameColor(dest.getPiece());
     	}
     	else {
-    		return true;
+    		return false;
     	}
     }
 

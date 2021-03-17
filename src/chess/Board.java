@@ -11,7 +11,9 @@ import pieces.Rook;
 public class Board {
 
     public Square[][] board = new Square[8][8];
-
+    
+    private Square enpassant;
+    
     public Board() {
         // initializes pawns
         for (int col = 0; col < board[0].length; col++) {
@@ -42,6 +44,8 @@ public class Board {
                 board[row][col] = new Square(row,col,null);
             }
         }
+        
+        enpassant = null;
 
     }
 
@@ -75,5 +79,13 @@ public class Board {
 
     public boolean move(int start, int finish) {
         return false;
+    }
+    
+    public Square getEnpassant() {
+    	return enpassant;
+    }
+    
+    public void setEnpassant(Square piece) {
+    	enpassant = piece;
     }
 }

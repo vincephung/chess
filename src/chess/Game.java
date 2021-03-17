@@ -11,12 +11,14 @@ public class Game {
         Square [][] board;
         boolean whiteTurn;
         boolean gameOver;
+        Square prevEnpassant;
         
         public Game() {
             boardClass = new Board();
             board = boardClass.board;
             whiteTurn = true;
             gameOver = false;
+            prevEnpassant = null;
         }
         
         public void startGame() {
@@ -53,6 +55,17 @@ public class Game {
                 if(!validMove) {
                     System.out.println("Illegal move, try again");
                     continue;
+                }
+                
+                //handle possible enpassant
+                if(boardClass.getEnpassant() != null) {
+                	if(prevEnpassant != null && prevEnpassant.equals(boardClass.getEnpassant())){
+                		boardClass.setEnpassant(null);
+                		prevEnpassant = null;
+                	}
+                	else {
+                		prevEnpassant = boardClass.getEnpassant();
+                	}
                 }
                 
                 // handle promotion
@@ -98,7 +111,7 @@ public class Game {
         if(destPiece != null && curPiece.sameColor(destPiece)) return false;
         
         // check if this piece can make this type of move.
-        boolean validMove = curPiece.validMove(board, curSquare, destSquare);
+        boolean validMove = curPiece.validMove(boardClass, curSquare, destSquare);
         
         if (!validMove) return false;
 
