@@ -22,4 +22,10 @@ public class Knight extends Piece{
         return this.getColor() + "N";
     }
 
+    @Override
+    public boolean pathBlocked(Square[][] board, Square cur, Square dest) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

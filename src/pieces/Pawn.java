@@ -43,15 +43,39 @@ public class Pawn extends Piece {
         if (colDistance != direction && colDistance != 0) {
             return false;
         }
+        
+        //diagonal only works if an enemy is one spot diagonal to the pawn.
+        if(Math.abs(colDistance) == 1 && dest.getPiece() == null) {
+            return false;
+        }
+        
 
         return true;
+    }
+
+    @Override
+    public boolean pathBlocked(Square[][] board, Square cur, Square dest) {     
+        //assume that validMove was checked already
+        //this ONLY strictly checks if the path is blocked
+        int rowDistance = Math.abs(dest.getRow() - cur.getRow());
+        int colDistance = Math.abs(dest.getCol() - cur.getCol());
+        
+       // if(firstMove) rowDistance == 2
+            
+        //there is a piece one/two spaces in front of the current pawn
+        if((rowDistance == 1 || rowDistance == 2) && colDistance == 0) {
+            if (dest.getPiece() != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean enpassant() {
         return true;
     }
 
-    public Piece promotion(char type,String color) {
+    public Piece promotion(char type, String color) {
         Piece newPiece = null;
         switch (Character.toUpperCase(type)) {
         case 'B':

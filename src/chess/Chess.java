@@ -36,7 +36,7 @@ public class Chess {
             
             Square curSquare = test.board[curRow-1][curCol];
             Square destSquare = test.board[destRow-1][destCol];
-            boolean validMove = game.movePiece(test.board,curSquare,destSquare,promotionType);
+            boolean validMove = game.movePiece(test.board,curSquare,destSquare,promotionType,whiteTurn);
 
             if(!validMove) {
                 System.out.println("Illegal move, try again");
