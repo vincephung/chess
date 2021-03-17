@@ -1,5 +1,6 @@
 package pieces;
 
+import chess.Board;
 import chess.Square;
 
 public abstract class Piece {
@@ -16,9 +17,7 @@ public abstract class Piece {
     public boolean sameColor(Piece dest) {
     	return color.equals(dest.getColor());
     }
-    /*
-     * public String toString() { return color; }
-     */
+
     public abstract boolean pathBlocked(Square[][] board, Square cur, Square dest);
-    public abstract boolean validMove(Square[][] board, Square cur, Square dest);
+    public abstract boolean validMove(Board boardClass, Square cur, Square dest);
 }

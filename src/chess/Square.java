@@ -25,6 +25,21 @@ public class Square {
     	return piece;
     }
     
+    public void setPiece(Piece piece) {
+    	this.piece = piece;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+    	if(o instanceof Square){
+    		Square temp = (Square)o;
+    		return temp.getRow() == row && temp.getCol() == col;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
     public String toString() {
         return piece.toString();
     }

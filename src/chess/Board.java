@@ -14,13 +14,15 @@ public class Board {
 
     public Square[][] board = new Square[8][8];
 
+    private Square enpassant;
+
     public Board() {
         // initializes pawns
         for (int col = 0; col < board[0].length; col++) {
             board[1][col] = new Square(1, col, new Pawn("w"));
             board[6][col] = new Square(6, col, new Pawn("b"));
         }
-        
+
         board[0][0] = new Square(0, 0, new Rook("w"));
         board[0][1] = new Square(0, 1, new Knight("w"));
         board[0][2] = new Square(0, 2, new Bishop("w"));
@@ -38,12 +40,14 @@ public class Board {
         board[7][5] = new Square(7, 5, new Bishop("b"));
         board[7][6] = new Square(7, 6, new Knight("b"));
         board[7][7] = new Square(7, 7, new Rook("b"));
-        
-        for(int row = 2; row < 6; row++) {
-            for(int col = 0; col < 8; col++) {
-                board[row][col] = new Square(row,col,null);
+
+        for (int row = 2; row < 6; row++) {
+            for (int col = 0; col < 8; col++) {
+                board[row][col] = new Square(row, col, null);
             }
         }
+
+        enpassant = null;
 
     }
 
@@ -78,18 +82,27 @@ public class Board {
     public boolean move(int start, int finish) {
         return false;
     }
-    
-    //Get current player's squares
-    public ArrayList<Square> getSquares(String color){
+
+    // Get current player's squares
+    public ArrayList<Square> getSquares(String color) {
         ArrayList<Square> list = new ArrayList<>();
-        for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 8; j++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 Square curSquare = board[i][j];
-                if(curSquare.piece!= null && curSquare.piece.getColor().equals(color)) {
+                if (curSquare.piece != null && curSquare.piece.getColor().equals(color)) {
                     list.add(curSquare);
                 }
             }
         }
         return list;
+    }
+
+    public Square getEnpassant() {
+        return enpassant;
+    }
+
+    public void setEnpassant(Square piece) {
+        enpassant = piece;
+
     }
 }
