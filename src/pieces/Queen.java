@@ -25,4 +25,10 @@ public class Queen extends Piece {
         return this.getColor() + "Q";
     }
 
+    @Override
+    public boolean pathBlocked(Square[][] board, Square cur, Square dest) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

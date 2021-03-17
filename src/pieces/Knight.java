@@ -17,7 +17,7 @@ public class Knight extends Piece{
         
         if((rowDistance == 1 && colDistance == 2) || (rowDistance ==2 && colDistance ==1)) {
         	//can jump over pieces in path so only worried about dest having same color
-        	return cur.getPiece().sameColor(dest.getPiece());
+        	return !pathBlocked(board, cur, dest);
         }
         else {
         	return false;
@@ -26,6 +26,12 @@ public class Knight extends Piece{
     
     public String toString() {
         return this.getColor() + "N";
+    }
+
+    @Override
+    public boolean pathBlocked(Square[][] board, Square cur, Square dest) {
+        //knight only blocked if dest piece is of same color
+        return cur.getPiece().sameColor(dest.getPiece());
     }
 
 }

@@ -20,57 +20,38 @@ public class Bishop extends Piece {
         if(rowDistance == 0 || colDistance == 0) {
             return false;
         }
-        if(rowDistance == colDistance) {
-        	//check for any pieces in path
-        	if((cur.getRow() - dest.getRow() < 0) && (cur.getCol() - dest.getCol()<0)) {
-        		int row = cur.getRow() + 1;
-        		int col = cur.getCol() + 1;
-        		while(row != dest.getRow() && col != dest.getCol()) {
-        			if(board[row][col] != null) {
-        				return false;
-        			}
-        			row++;
-        			col++;
-        		}
-        	}
-        	else if((cur.getRow() - dest.getRow() < 0) && (cur.getCol() - dest.getCol()>0)) {
-        		int row = cur.getRow() + 1;
-        		int col = cur.getCol() - 1;
-        		while(row != dest.getRow() && col != dest.getCol()) {
-        			if(board[row][col] != null) {
-        				return false;
-        			}
-        			row++;
-        			col--;
-        		}
-        	}
-        	else if((cur.getRow() - dest.getRow() > 0) && (cur.getCol() - dest.getCol()<0)) {
-        		int row = cur.getRow() - 1;
-        		int col = cur.getCol() + 1;
-        		while(row != dest.getRow() && col != dest.getCol()) {
-        			if(board[row][col] != null) {
-        				return false;
-        			}
-        			row--;
-        			col++;
-        		}
-        	}
-        	else{
-        		int row = cur.getRow() - 1;
-        		int col = cur.getCol() - 1;
-        		while(row != dest.getRow() && col != dest.getCol()) {
-        			if(board[row][col] != null) {
-        				return false;
-        			}
-        			row--;
-        			col--;
-        		}
-        	}
-        	return true;
-        }
-        else {
+        
+        //if not moving in diagonal can't be valid
+        if(rowDistance != colDistance) {
         	return false;
         }
+        
+        //otherwise valid as long as no blocked path
+        return !pathBlocked(board, cur, dest);
+    }
+
+    @Override
+    public boolean pathBlocked(Square[][] board, Square cur, Square dest) {
+     
+        int distance = Math.abs(dest.getRow() - cur.getRow());
+        int rowDistance = dest.getRow() - cur.getRow();
+        int colDistance = dest.getCol() - cur.getCol();
+        int row = cur.getRow();
+        int col = cur.getCol();
+        
+        //check path diagonal BETWEEN cur and dest(excluding)
+        for(int i = 0; i < distance-1; i++) {
+            //If dest square is below, decrement distance by 1 each interval
+            //if dest square is above, increment distance by 1 each interval
+            int rowDirection = (rowDistance > 0) ? 1+i : -1-i;
+            int colDirection = (colDistance > 0) ? 1+i : -1-i;
+            
+            Piece curPiece = board[row+rowDirection][col+colDirection].getPiece();
+            if(curPiece != null) {
+                return true;
+            }
+        }
+        return false;
     }
     
     public String toString() {

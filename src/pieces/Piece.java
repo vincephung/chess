@@ -19,6 +19,6 @@ public abstract class Piece {
     /*
      * public String toString() { return color; }
      */
-
+    public abstract boolean pathBlocked(Square[][] board, Square cur, Square dest);
     public abstract boolean validMove(Square[][] board, Square cur, Square dest);
 }
