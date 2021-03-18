@@ -127,6 +127,7 @@ public class Game {
                 promotion((Pawn) curPiece, destSquare, promotionType);
             }
 
+            System.out.println();
             boardClass.printBoard();
 
             // check and checkmate calls

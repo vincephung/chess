@@ -51,7 +51,6 @@ public class King extends Piece{
     public boolean isCastling(Square[][] board, Square cur, Square dest) {
     	
     	int direction = cur.getCol() - dest.getCol();
-    	
     	//check to make sure king hasn't been moved
     	if(!hasMoved) {
     		//check for rook in direction that also hasn't been moved
@@ -68,9 +67,9 @@ public class King extends Piece{
     						for(int i = 3; i > 0; i--) {
     							if(board[0][i].getPiece() != null) return false;
     						}
-    						
+
     						//if there's nothing in between perform the castling
-    						Rook temp = (Rook)board[7][0].getPiece();
+    						Rook temp = (Rook)board[0][0].getPiece();
     						temp.hasMoved = true;
     						board[0][3].setPiece(temp);
     						board[0][0].setPiece(null);
@@ -93,10 +92,11 @@ public class King extends Piece{
     					}
     					else {
     						//otherwise check for anything inbetween
-    						for(int i = 3; i < 7; i++) {
+
+    						for(int i = 5; i < 7; i++) {
     							if(board[0][i].getPiece() != null) return false;
     						}
-    						
+
     						//if there's nothing in between perform the castling
     						Rook temp = (Rook)board[0][7].getPiece();
     						temp.hasMoved = true;
@@ -172,7 +172,7 @@ public class King extends Piece{
     		}
     		
     	}
-    	
+
     	return false;
         
     }
