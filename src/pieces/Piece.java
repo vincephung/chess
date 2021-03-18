@@ -1,5 +1,7 @@
 package pieces;
 
+import java.util.ArrayList;
+
 import chess.Board;
 import chess.Square;
 
@@ -20,4 +22,5 @@ public abstract class Piece {
 
     public abstract boolean pathBlocked(Square[][] board, Square cur, Square dest);
     public abstract boolean validMove(Board boardClass, Square cur, Square dest);
+    public abstract ArrayList<Square> getAtkPath(Square[][]board, Square cur, Square dest);
 }

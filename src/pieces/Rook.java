@@ -1,5 +1,7 @@
 package pieces;
 
+import java.util.ArrayList;
+
 import chess.Board;
 import chess.Square;
 
@@ -72,5 +74,40 @@ public class Rook extends Piece{
         }
         
         return false;
+    }
+
+    @Override
+    public ArrayList<Square> getAtkPath(Square[][] board, Square cur, Square dest) {
+        int rowDistance = dest.getRow() - cur.getRow();
+        int colDistance = dest.getCol() - cur.getCol();
+        int row = cur.getRow();
+        int col = cur.getCol();
+        ArrayList<Square> path = new ArrayList<>();
+        
+        //distance traveled changes depending on the move's direction
+        int pathLength = (rowDistance != 0) ? rowDistance : colDistance;
+        boolean horizontal; //direction of path
+        
+        //finds what direction the piece takes (horizontal/vert)
+        if(colDistance != 0) {
+            pathLength = colDistance;
+            horizontal = true;
+        }else {
+            pathLength = rowDistance;
+            horizontal = false; 
+        }
+        Math.abs(pathLength);
+        
+        //check horizontal/vertical path BETWEEN cur and dest(excluding)
+        for(int i = 0; i < pathLength-1; i++) {
+            if(horizontal) {
+                int colDirection = (colDistance > 0) ? 1+i : -1-i;
+                path.add(board[row][col+colDirection]);
+            }else {
+                int rowDirection = (rowDistance > 0) ? 1+i : -1-i;
+                path.add(board[row + rowDirection][col]);
+            }
+        }
+        return path;
     }
 }

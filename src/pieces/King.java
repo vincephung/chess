@@ -1,5 +1,7 @@
 package pieces;
 
+import java.util.ArrayList;
+
 import chess.Board;
 import chess.Square;
 
@@ -45,6 +47,12 @@ public class King extends Piece{
     	else {
     		return false;
     	}
+    }
+
+    @Override
+    public ArrayList<Square> getAtkPath(Square[][] board, Square cur, Square dest) {
+        
+        return null;
     }
 
 
