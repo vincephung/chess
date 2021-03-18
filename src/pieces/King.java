@@ -58,63 +58,6 @@ public class King extends Piece{
     		if(getColor().equals("w")) {
     			if(direction > 0) {
     				//move to left
-    				if(board[7][0].getPiece() != null && board[7][0].getPiece() instanceof Rook) {
-    					//make sure rook hasn't been moved
-    					if(((Rook)board[7][0].getPiece()).hasMoved){
-    						return false;
-    					}
-    					else {
-    						//otherwise check for anything inbetween
-    						for(int i = 3; i > 0; i--) {
-    							if(board[7][i].getPiece() != null) return false;
-    						}
-    						
-    						//if there's nothing in between perform the castling
-    						Rook temp = (Rook)board[7][0].getPiece();
-    						temp.hasMoved = true;
-    						board[7][3].setPiece(temp);
-    						board[7][0].setPiece(null);
-    						
-    						return true;
-    						
-    					}
-    				}
-    				else {
-    					return false;
-    				}
-    				
-    			}
-    			else {
-    				//move to right
-    				if(board[7][7].getPiece() != null && board[7][7].getPiece() instanceof Rook) {
-    					//make sure rook hasn't been moved
-    					if(((Rook)board[7][7].getPiece()).hasMoved){
-    						return false;
-    					}
-    					else {
-    						//otherwise check for anything inbetween
-    						for(int i = 3; i < 7; i++) {
-    							if(board[7][i].getPiece() != null) return false;
-    						}
-    						
-    						//if there's nothing in between perform the castling
-    						Rook temp = (Rook)board[7][7].getPiece();
-    						temp.hasMoved = true;
-    						board[7][5].setPiece(temp);
-    						board[7][7].setPiece(null);
-    						
-    						return true;
-    						
-    					}
-    				}
-    				else {
-    					return false;
-    				}
-    			}
-    		}
-    		else {
-    			if(direction > 0) {
-    				//move to left
     				if(board[0][0].getPiece() != null && board[0][0].getPiece() instanceof Rook) {
     					//make sure rook hasn't been moved
     					if(((Rook)board[0][0].getPiece()).hasMoved){
@@ -127,7 +70,7 @@ public class King extends Piece{
     						}
     						
     						//if there's nothing in between perform the castling
-    						Rook temp = (Rook)board[0][0].getPiece();
+    						Rook temp = (Rook)board[7][0].getPiece();
     						temp.hasMoved = true;
     						board[0][3].setPiece(temp);
     						board[0][0].setPiece(null);
@@ -150,7 +93,7 @@ public class King extends Piece{
     					}
     					else {
     						//otherwise check for anything inbetween
-    						for(int i = 4; i < 7; i++) {
+    						for(int i = 3; i < 7; i++) {
     							if(board[0][i].getPiece() != null) return false;
     						}
     						
@@ -159,6 +102,63 @@ public class King extends Piece{
     						temp.hasMoved = true;
     						board[0][5].setPiece(temp);
     						board[0][7].setPiece(null);
+    						
+    						return true;
+    						
+    					}
+    				}
+    				else {
+    					return false;
+    				}
+    			}
+    		}
+    		else {
+    			if(direction > 0) {
+    				//move to left
+    				if(board[7][0].getPiece() != null && board[7][0].getPiece() instanceof Rook) {
+    					//make sure rook hasn't been moved
+    					if(((Rook)board[7][0].getPiece()).hasMoved){
+    						return false;
+    					}
+    					else {
+    						//otherwise check for anything inbetween
+    						for(int i = 3; i > 0; i--) {
+    							if(board[7][i].getPiece() != null) return false;
+    						}
+    						
+    						//if there's nothing in between perform the castling
+    						Rook temp = (Rook)board[0][0].getPiece();
+    						temp.hasMoved = true;
+    						board[7][3].setPiece(temp);
+    						board[7][0].setPiece(null);
+    						
+    						return true;
+    						
+    					}
+    				}
+    				else {
+    					return false;
+    				}
+    				
+    			}
+    			else {
+    				//move to right
+    				if(board[7][7].getPiece() != null && board[0][7].getPiece() instanceof Rook) {
+    					//make sure rook hasn't been moved
+    					if(((Rook)board[7][7].getPiece()).hasMoved){
+    						return false;
+    					}
+    					else {
+    						//otherwise check for anything inbetween
+    						for(int i = 4; i < 7; i++) {
+    							if(board[7][i].getPiece() != null) return false;
+    						}
+    						
+    						//if there's nothing in between perform the castling
+    						Rook temp = (Rook)board[0][7].getPiece();
+    						temp.hasMoved = true;
+    						board[7][5].setPiece(temp);
+    						board[7][7].setPiece(null);
     						
     						return true;
     						

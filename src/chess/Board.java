@@ -19,10 +19,10 @@ public class Board {
     public Board() {
         // initializes pawns
         for (int col = 0; col < board[0].length; col++) {
-            board[1][col] = new Square(1, col, new Pawn("w"));
-            board[6][col] = new Square(6, col, new Pawn("b"));
+            board[1][col] = new Square(1, col, null);
+            board[6][col] = new Square(6, col, null);
         }
-
+/*
         board[0][0] = new Square(0, 0, new Rook("w"));
         board[0][1] = new Square(0, 1, new Knight("w"));
         board[0][2] = new Square(0, 2, new Bishop("w"));
@@ -39,6 +39,25 @@ public class Board {
         board[7][4] = new Square(7, 4, new King("b"));
         board[7][5] = new Square(7, 5, new Bishop("b"));
         board[7][6] = new Square(7, 6, new Knight("b"));
+        board[7][7] = new Square(7, 7, new Rook("b"));*/
+        
+        //castling test board
+        board[0][0] = new Square(0, 0, new Rook("w"));
+        board[0][1] = new Square(0, 1, null);
+        board[0][2] = new Square(0, 2, null);
+        board[0][3] = new Square(0, 3, null);
+        board[0][4] = new Square(0, 4, new King("w"));
+        board[0][5] = new Square(0, 5, null);
+        board[0][6] = new Square(0, 6, null);
+        board[0][7] = new Square(0, 7, new Rook("w"));
+
+        board[7][0] = new Square(7, 0, new Rook("b"));
+        board[7][1] = new Square(7, 1, null);
+        board[7][2] = new Square(7, 2, null);
+        board[7][3] = new Square(7, 3, null);
+        board[7][4] = new Square(7, 4, new King("b"));
+        board[7][5] = new Square(7, 5, null);
+        board[7][6] = new Square(7, 6, null);
         board[7][7] = new Square(7, 7, new Rook("b"));
 
         for (int row = 2; row < 6; row++) {
