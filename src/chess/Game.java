@@ -8,21 +8,39 @@ import pieces.Knight;
 import pieces.Pawn;
 import pieces.Piece;
 
+/**
+ * Game represents an instance of a chess game Contains method that controls the
+ * game, keeps track of turns, valid moves, checks etc.
+ * 
+ * @author Vincent Phung
+ * @author William McFarland
+ *
+ */
 public class Game {
     Board boardClass;
     Square[][] board;
     boolean whiteTurn;
+    boolean drawOffer;
     boolean gameOver;
     Square prevEnpassant;
 
+    /**
+     * Class constructor to create a new game instance. Initializes board and the
+     * game settings such as turn.
+     */
     public Game() {
         boardClass = new Board();
         board = boardClass.board;
         whiteTurn = true;
+        drawOffer = false;
         gameOver = false;
         prevEnpassant = null;
     }
 
+    /**
+     * Method to start a game. Takes in user input until the game is over and
+     * displays the chess board.
+     */
     public void startGame() {
         boardClass.printBoard();
 
@@ -41,9 +59,32 @@ public class Game {
             String str = sc.nextLine();
             String[] input = str.split(" ");
             char promotionType = ' ';
-            if (input.length == 3) {
-                promotionType = input[2].charAt(0);
+
+            // handle resign
+            if (input.length == 1 && input[0].equals("resign")) {
+                if (whiteTurn) {
+                    System.out.println("Black wins");
+                } else {
+                    System.out.println("White wins");
+                }
+                break;
             }
+
+            // other user accepts draw and ends game
+            if (drawOffer && input[0].equals("draw")) {
+                // System.out.println("draw");
+                break;
+            }
+            // Third input can either be draw or promotion type
+            if (input.length == 3) {
+                // handle draw
+                if (input[2].equals("draw?")) {
+                    drawOffer = true;
+                } else {
+                    promotionType = input[2].charAt(0);
+                }
+            }
+
             // convert user input into integers
             int curCol = input[0].charAt(0) - 'a';
             int curRow = input[0].charAt(1) - '0';
@@ -53,22 +94,22 @@ public class Game {
             Square curSquare = board[curRow - 1][curCol];
             Square destSquare = board[destRow - 1][destCol];
             Piece curPiece = curSquare.piece;
-            String enemyColor = (curSquare.piece.getColor().equals("w")) ? "b" : "w";
-            Square enemyKing = kingLocation(board, enemyColor);
 
             // player can only move their own colored pieces, ex: white moves white
+            String enemyColor = (curSquare.piece.getColor().equals("w")) ? "b" : "w";
             if (whiteTurn && curPiece.getColor().equals("b")) {
                 continue;
             } else if (!whiteTurn && curPiece.getColor().equals("w")) {
                 continue;
             }
-            
+
+            // checks if the move is valid / does not put king in check
             if (!simulateMove(board, curSquare, destSquare)) {
                 System.out.println("Illegal move, try again");
                 continue;
             }
 
-            // moves piece if move was considered valid
+            // If move was valid, move the piece
             movePiece(board, curSquare, destSquare);
 
             // handle possible enpassant
@@ -88,6 +129,8 @@ public class Game {
 
             boardClass.printBoard();
 
+            // check and checkmate calls
+            Square enemyKing = kingLocation(board, enemyColor);
             if (isCheck(board, enemyKing)) {
                 if (isCheckmate(board, enemyKing)) {
                     gameOver = true;
@@ -107,8 +150,18 @@ public class Game {
         }
     }
 
+    /**
+     * Determines whether the piece on the currently selected square can move to the
+     * destination square successfully. Does not check if the move puts their King
+     * in check.
+     * 
+     * @param board      Contains the state of all of the squares/pieces on the
+     *                   board.
+     * @param curSquare  The currently selected square.
+     * @param destSquare The destination square that the user wants to move to.
+     * @return true if the piece on curSquare can successfully move to destSquare.
+     */
     public boolean canMove(Square[][] board, Square curSquare, Square destSquare) {
-
         int curCol = curSquare.getCol();
         int curRow = curSquare.getRow();
         int destCol = destSquare.getCol();
@@ -116,11 +169,10 @@ public class Game {
         Piece curPiece = curSquare.getPiece();
         Piece destPiece = destSquare.getPiece();
 
-        // current square needs to be a piece
+        // current square needs contain a piece.
         if (curPiece == null) {
             return false;
         }
-            
 
         // cannot move piece to the same spot
         if (curCol == destCol && curRow == destRow) {
@@ -132,15 +184,6 @@ public class Game {
                 || destRow > 7) {
             return false;
         }
-        
-        /*
-        // player can only move their own colored pieces, ex: white moves white
-        if (whiteTurn && curPiece.getColor().equals("b")) {
-            return false;
-        } else if (!whiteTurn && curPiece.getColor().equals("w")) {
-            return false;
-        }
-        */
 
         // check to make sure dest isn't of same color
         if (destPiece != null && curPiece.sameColor(destPiece)) {
@@ -148,23 +191,33 @@ public class Game {
         }
 
         // check if this piece can make this type of move.
-
-        boolean validMove = curPiece.validMove(boardClass, curSquare, destSquare);
-
-        if (!validMove) {
+        if (!curPiece.validMove(boardClass, curSquare, destSquare)) {
             return false;
         }
 
         return true;
     }
 
-    // move current piece to new square
+    /**
+     * Moves the piece on the currently selected square to the destination square
+     * 
+     * @param board      Contains the state of all of the squares/pieces on the
+     *                   board.
+     * @param curSquare  The currently selected square.
+     * @param destSquare The destination square that the user wants to move to.
+     */
     public void movePiece(Square[][] board, Square curSquare, Square destSquare) {
         destSquare.piece = curSquare.piece;
         curSquare.piece = null;
     }
 
-    // locates the player's king
+    /**
+     * Searches for a certain colored King's position on the board
+     * 
+     * @param board Contains the state of all of the squares/pieces on the board.
+     * @param color The color of the King to search for.
+     * @return The square that the king is located at.
+     */
     private Square kingLocation(Square[][] board, String color) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -176,9 +229,16 @@ public class Game {
             }
         }
         return null;
-
     }
 
+    /**
+     * When a pawn reaches the last row of the opposite board it is exchanged for a
+     * different piece of the same color.
+     * 
+     * @param curPawn    The currently selected pawn to promote.
+     * @param destSquare The square that the pawn is moving to.
+     * @param newType    The type of piece that the pawn is being promoted to.
+     */
     private void promotion(Pawn curPawn, Square destSquare, char newType) {
         int destRow = destSquare.getRow();
 
@@ -193,9 +253,15 @@ public class Game {
         destSquare.piece = curPawn.promotion(newType, curPawn.getColor());
     }
 
-    // Checks if the king/selected square can be attacked
+    /**
+     * Determines if the selected square can be attacked by an enemy piece
+     * 
+     * @param board     Contains the state of all of the squares/pieces on the
+     *                  board.
+     * @param curSquare The currently selected square to check.
+     * @return True if the currently selected square can be attacked by an enemy.
+     */
     public boolean isCheck(Square[][] board, Square curSquare) {
-        // Loops the entire board and sees if a piece can attack the king's square
         String enemyColor = (curSquare.piece.getColor().equals("w")) ? "b" : "w";
         ArrayList<Square> enemySquares = boardClass.getSquares(enemyColor);
         for (Square attacker : enemySquares) {
@@ -206,9 +272,18 @@ public class Game {
         return false;
     }
 
+    /**
+     * Determines if there are no possible moves that can get a king out of check.
+     * There are possibilities to get out of check: 1.King moves out of check , 2.
+     * Another piece blocks the attacker, 3. The attacking piece is captured.
+     * 
+     * @param board      Contains the state of all of the squares/pieces on the
+     *                   board.
+     * @param kingSquare The square that the king is located on.
+     * @return True if all checks fail then there are no possible moves that can get
+     *         a king out of check.
+     */
     public boolean isCheckmate(Square[][] board, Square kingSquare) {
-        // needs to check which color is in checkmate
-
         int curRow = kingSquare.getRow();
         int curCol = kingSquare.getCol();
         int top = curRow + 1;
@@ -236,21 +311,17 @@ public class Game {
             return false;
         }
 
-        // get cur player's squares
         Piece curPiece = kingSquare.piece;
         ArrayList<Square> playerSquares = boardClass.getSquares(curPiece.getColor());
         ArrayList<Square> attackers = getKingAttackers(board, kingSquare);
 
-        // Check if you can block an attacker's path
-        // if there is only one attacker, get that square/piece
+        // Attempt to block attacker's path with another piece.
+        // Only one attacker can be blocked.
         if (attackers.size() == 1) {
             Square atkSq = attackers.get(0);
             Piece atkPiece = atkSq.piece;
-            // path of the attacker
             ArrayList<Square> attackPath = atkPiece.getAtkPath(board, atkSq, kingSquare);
 
-            // Can only block path if there is one attacker
-            // check if a piece can block one of the squares in the atk path
             for (Square curSq : playerSquares) {
                 for (Square pathSq : attackPath) {
                     if (simulateMove(board, curSq, pathSq))
@@ -260,8 +331,8 @@ public class Game {
 
         }
 
-        // check if you can capture the attacking piece
-        // can only capture one piece
+        // Attempt to capture the potential attacker.
+        // Only one attacker can be captured.
         if (attackers.size() == 1) {
             Square atkSq = attackers.get(0);
             for (Square curSq : playerSquares) {
@@ -274,32 +345,46 @@ public class Game {
         return true;
     }
 
-    private ArrayList<Square> getKingAttackers(Square[][] board, Square curSquare) {
+    /**
+     * Get a list of all of the squares that contain a piece that can attack the
+     * king.
+     * 
+     * @param board      Contains the state of all of the squares/pieces on the
+     *                   board.
+     * @param kingSquare The square that the king is located on.
+     * @return List of all of the squares that contain a piece that can attack the
+     *         king.
+     */
+    private ArrayList<Square> getKingAttackers(Square[][] board, Square kingSquare) {
         ArrayList<Square> list = new ArrayList<>();
-        String enemyColor = (curSquare.piece.getColor().equals("w")) ? "b" : "w";
+        String enemyColor = (kingSquare.piece.getColor().equals("w")) ? "b" : "w";
         ArrayList<Square> enemySquares = boardClass.getSquares(enemyColor);
 
-        // does not need isCheck because we only need to get the king attackers
-        // You can potentially capture the enemy king and in doing so put yourself in
-        // check, but the game is already over
+        // isCheck is not necessary because capturing the enemy king will end the game.
         for (Square attacker : enemySquares) {
-            if (canMove(board, attacker, curSquare)) {
+            if (canMove(board, attacker, kingSquare)) {
                 list.add(attacker);
             }
         }
-
         return list;
     }
 
+    /**
+     * Simulates a move using a combination of canMove and isCheck. Checks if a move
+     * is possible and does not put the king in check.
+     * 
+     * @param board      Contains the state of all of the squares/pieces on the
+     *                   board.
+     * @param curSquare  The currently selected square.
+     * @param destSquare The destination square that the user wants to move to.
+     * @return True if the move can be made and does not put the king in check.
+     */
     private boolean simulateMove(Square[][] board, Square curSquare, Square destSquare) {
-        // combines canMove and isCheck
-        // Basically if a piece moves and the king is NOT in check
-        // Technically this should be called "valid move"
-
         if (!canMove(board, curSquare, destSquare)) {
             return false;
         }
-        
+
+        Piece tempPiece = destSquare.piece;
         movePiece(board, curSquare, destSquare);
 
         // get king's location after you move piece
@@ -308,11 +393,12 @@ public class Game {
         if (isCheck(board, kingSquare)) {
             // reverts move
             movePiece(board, destSquare, curSquare);
+            destSquare.piece = tempPiece;
             return false;
         }
         // reverts move
         movePiece(board, destSquare, curSquare);
+        destSquare.piece = tempPiece;
         return true;
-
     }
 }
