@@ -7,6 +7,8 @@ import chess.Square;
 
 public class Rook extends Piece{
 
+	public boolean hasMoved = false;
+	
     public Rook(String color) {
         super(color);
         // TODO Auto-generated constructor stub
@@ -26,7 +28,13 @@ public class Rook extends Piece{
         //Rook can only move in one direction
         if((rowDistance != 0 && colDistance ==0) || (rowDistance == 0 && colDistance != 0)){
         	//only valid if path unblocked
-        	return !pathBlocked(board, cur, dest);
+        	if(!pathBlocked(board, cur, dest)) {
+        		hasMoved = true;
+        		return true;
+        	}
+        	else {
+        		return false;
+        	}
         }
         else return false;
         
