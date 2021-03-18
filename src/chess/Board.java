@@ -10,12 +10,24 @@ import pieces.Piece;
 import pieces.Queen;
 import pieces.Rook;
 
+/**
+ * Board is a representation of the current state of the game board. 8x8 grid of
+ * Squares that contain chess pieces.
+ * 
+ * @author Vincent Phung
+ * @author William McFarland
+ *
+ */
+
 public class Board {
 
     public Square[][] board = new Square[8][8];
-
     private Square enpassant;
 
+    /**
+     * Class constructor to create a new board instance. Initializes board with 8x8
+     * squares and puts pieces on the board.
+     */
     public Board() {
         // initializes pawns
         for (int col = 0; col < board[0].length; col++) {
@@ -65,11 +77,12 @@ public class Board {
                 board[row][col] = new Square(row, col, null);
             }
         }
-
         enpassant = null;
-
     }
 
+    /**
+     * Prints out all of the squares on the board.
+     */
     public void printBoard() {
         for (int i = 7; i >= 0; i--) {
             for (int j = 0; j < 8; j++) {
@@ -98,11 +111,12 @@ public class Board {
         System.out.println();
     }
 
-    public boolean move(int start, int finish) {
-        return false;
-    }
-
-    // Get current player's squares
+    /**
+     * Gets the squares of a selected color.
+     * 
+     * @param color Color of the squares to search for.
+     * @return List of squares of a specific color.
+     */
     public ArrayList<Square> getSquares(String color) {
         ArrayList<Square> list = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
