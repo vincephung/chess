@@ -65,7 +65,7 @@ public abstract class Piece {
      * @return True if the piece on the current square can successfully move to the
      *         dest square.
      */
-    public abstract boolean validMove(Board boardClass, Square cur, Square dest);
+    public abstract boolean validMove(Board boardObj, Square cur, Square dest);
 
     /**
      * Creates and returns a list that contains the squares that form a path from

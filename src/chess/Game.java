@@ -17,7 +17,7 @@ import pieces.Piece;
  *
  */
 public class Game {
-    Board boardClass;
+    Board boardObject;
     Square[][] board;
     boolean whiteTurn;
     boolean drawOffer;
@@ -29,8 +29,8 @@ public class Game {
      * game settings such as turn.
      */
     public Game() {
-        boardClass = new Board();
-        board = boardClass.board;
+        boardObject = new Board();
+        board = boardObject.board;
         whiteTurn = true;
         drawOffer = false;
         gameOver = false;
@@ -42,7 +42,7 @@ public class Game {
      * displays the chess board.
      */
     public void startGame() {
-        boardClass.printBoard();
+        boardObject.printBoard();
 
         // take in user input
         Scanner sc = new Scanner(System.in);
@@ -113,12 +113,12 @@ public class Game {
             movePiece(board, curSquare, destSquare);
 
             // handle possible enpassant
-            if (boardClass.getEnpassant() != null) {
-                if (prevEnpassant != null && prevEnpassant.equals(boardClass.getEnpassant())) {
-                    boardClass.setEnpassant(null);
+            if (boardObject.getEnpassant() != null) {
+                if (prevEnpassant != null && prevEnpassant.equals(boardObject.getEnpassant())) {
+                    boardObject.setEnpassant(null);
                     prevEnpassant = null;
                 } else {
-                    prevEnpassant = boardClass.getEnpassant();
+                    prevEnpassant = boardObject.getEnpassant();
                 }
             }
 
@@ -128,7 +128,7 @@ public class Game {
             }
 
             System.out.println();
-            boardClass.printBoard();
+            boardObject.printBoard();
 
             // check and checkmate calls
             Square enemyKing = kingLocation(board, enemyColor);
@@ -192,7 +192,7 @@ public class Game {
         }
 
         // check if this piece can make this type of move.
-        if (!curPiece.validMove(boardClass, curSquare, destSquare)) {
+        if (!curPiece.validMove(boardObject, curSquare, destSquare)) {
             return false;
         }
 
@@ -264,7 +264,7 @@ public class Game {
      */
     public boolean isCheck(Square[][] board, Square curSquare) {
         String enemyColor = (curSquare.piece.getColor().equals("w")) ? "b" : "w";
-        ArrayList<Square> enemySquares = boardClass.getSquares(enemyColor);
+        ArrayList<Square> enemySquares = boardObject.getSquares(enemyColor);
         for (Square attacker : enemySquares) {
             if (canMove(board, attacker, curSquare)) {
                 return true;
@@ -313,7 +313,7 @@ public class Game {
         }
 
         Piece curPiece = kingSquare.piece;
-        ArrayList<Square> playerSquares = boardClass.getSquares(curPiece.getColor());
+        ArrayList<Square> playerSquares = boardObject.getSquares(curPiece.getColor());
         ArrayList<Square> attackers = getKingAttackers(board, kingSquare);
 
         // Attempt to block attacker's path with another piece.
@@ -359,7 +359,7 @@ public class Game {
     private ArrayList<Square> getKingAttackers(Square[][] board, Square kingSquare) {
         ArrayList<Square> list = new ArrayList<>();
         String enemyColor = (kingSquare.piece.getColor().equals("w")) ? "b" : "w";
-        ArrayList<Square> enemySquares = boardClass.getSquares(enemyColor);
+        ArrayList<Square> enemySquares = boardObject.getSquares(enemyColor);
 
         // isCheck is not necessary because capturing the enemy king will end the game.
         for (Square attacker : enemySquares) {

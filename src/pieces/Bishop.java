@@ -28,9 +28,9 @@ public class Bishop extends Piece {
      * Returns true if the piece on current square moves in a diagonal direction.
      */
     @Override
-    public boolean validMove(Board boardClass, Square cur, Square dest) {
+    public boolean validMove(Board boardObject, Square cur, Square dest) {
 
-        Square[][] board = boardClass.board;
+        Square[][] board = boardObject.board;
 
         int rowDistance = Math.abs(cur.getRow() - dest.getRow());
         int colDistance = Math.abs(cur.getCol() - dest.getCol());

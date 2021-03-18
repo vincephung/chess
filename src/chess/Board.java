@@ -112,6 +112,54 @@ public class Board {
     }
 
     /**
+     * Determines whether the piece on the currently selected square can move to the
+     * destination square successfully. Does not check if the move puts their King
+     * in check.
+     * 
+     * @param board      Contains the state of all of the squares/pieces on the
+     *                   board.
+     * @param curSquare  The currently selected square.
+     * @param destSquare The destination square that the user wants to move to.
+     * @return true if the piece on curSquare can successfully move to destSquare.
+     */
+    public boolean canMove(Square curSquare, Square destSquare) {
+        int curCol = curSquare.getCol();
+        int curRow = curSquare.getRow();
+        int destCol = destSquare.getCol();
+        int destRow = destSquare.getRow();
+        Piece curPiece = curSquare.getPiece();
+        Piece destPiece = destSquare.getPiece();
+
+        // current square needs contain a piece.
+        if (curPiece == null) {
+            return false;
+        }
+
+        // cannot move piece to the same spot
+        if (curCol == destCol && curRow == destRow) {
+            return false;
+        }
+
+        // check boundaries
+        if (curCol < 0 || curRow < 0 || curCol > 7 || curRow > 7 || destCol < 0 || destRow < 0 || destCol > 7
+                || destRow > 7) {
+            return false;
+        }
+
+        // check to make sure dest isn't of same color
+        if (destPiece != null && curPiece.sameColor(destPiece)) {
+            return false;
+        }
+
+        // check if this piece can make this type of move.
+        if (!curPiece.validMove(this, curSquare, destSquare)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Gets the squares of a selected color.
      * 
      * @param color Color of the squares to search for.
@@ -137,5 +185,16 @@ public class Board {
     public void setEnpassant(Square piece) {
         enpassant = piece;
 
+    }
+    
+    public boolean isUnderAttack(Square curSquare, String enemyColor) {
+     
+        ArrayList<Square> enemySquares = getSquares(enemyColor);
+        for (Square attacker : enemySquares) {
+            if (canMove(attacker, curSquare)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

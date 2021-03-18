@@ -15,18 +15,20 @@ public class King extends Piece{
     }
 
     @Override
-    public boolean validMove(Board boardClass, Square cur, Square dest) {
+    public boolean validMove(Board boardObject, Square cur, Square dest) {
     	
-    	Square[][] board = boardClass.board;
+    	Square[][] board = boardObject.board;
     	
         int rowDistance = Math.abs(cur.getRow() - dest.getRow());
         int colDistance = Math.abs(cur.getCol() - dest.getCol());
+        
+        String enemyColor = (cur.getPiece().getColor().equals("w")) ? "b" : "w";
         
         //check for a move of more than one spot in any direction
         if(rowDistance > 1 || colDistance > 1) {
         	//check for possible castling
         	if(rowDistance == 0 && colDistance == 2) {
-        		if(isCastling(boardClass.board, cur, dest)) {
+        		if(!boardObject.isUnderAttack(cur, enemyColor) && isCastling(boardObject, cur, dest)) {
         			hasMoved = true;
         			return true;
         		}
@@ -48,7 +50,9 @@ public class King extends Piece{
         
     }
     
-    public boolean isCastling(Square[][] board, Square cur, Square dest) {
+    public boolean isCastling(Board boardObject, Square cur, Square dest) {
+    	
+    	Square[][] board = boardObject.board;
     	
     	int direction = cur.getCol() - dest.getCol();
     	//check to make sure king hasn't been moved
@@ -66,6 +70,10 @@ public class King extends Piece{
     						//otherwise check for anything inbetween
     						for(int i = 3; i > 0; i--) {
     							if(board[0][i].getPiece() != null) return false;
+    						}
+    						
+    						if(boardObject.isUnderAttack(new Square(0, 3, null), "b") || boardObject.isUnderAttack(new Square(0, 2, null), "b")) {
+    							return false;
     						}
 
     						//if there's nothing in between perform the castling
@@ -95,6 +103,10 @@ public class King extends Piece{
 
     						for(int i = 5; i < 7; i++) {
     							if(board[0][i].getPiece() != null) return false;
+    						}
+    						
+    						if(boardObject.isUnderAttack(new Square(0, 5, null), "b") || boardObject.isUnderAttack(new Square(0, 6, null), "b")) {
+    							return false;
     						}
 
     						//if there's nothing in between perform the castling
@@ -126,6 +138,10 @@ public class King extends Piece{
     							if(board[7][i].getPiece() != null) return false;
     						}
     						
+    						if(boardObject.isUnderAttack(new Square(7, 3, null), "w") || boardObject.isUnderAttack(new Square(7, 2, null), "w")) {
+    							return false;
+    						}
+    						
     						//if there's nothing in between perform the castling
     						Rook temp = (Rook)board[7][0].getPiece();
     						temp.hasMoved = true;
@@ -152,6 +168,10 @@ public class King extends Piece{
     						//otherwise check for anything inbetween
     						for(int i = 5; i < 7; i++) {
     							if(board[7][i].getPiece() != null) return false;
+    						}
+    						
+    						if(boardObject.isUnderAttack(new Square(7, 5, null), "w") || boardObject.isUnderAttack(new Square(7, 6, null), "w")) {
+    							return false;
     						}
 
     						//if there's nothing in between perform the castling
