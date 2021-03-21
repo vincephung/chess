@@ -95,11 +95,17 @@ public class Game {
             Square destSquare = board[destRow - 1][destCol];
             Piece curPiece = curSquare.piece;
 
+            if(curPiece == null) {
+            	System.out.println("Illegal move, try again");
+                continue;
+            }
             // player can only move their own colored pieces, ex: white moves white
             String enemyColor = (curSquare.piece.getColor().equals("w")) ? "b" : "w";
             if (whiteTurn && curPiece.getColor().equals("b")) {
+            	System.out.println("Illegal move, try again");
                 continue;
             } else if (!whiteTurn && curPiece.getColor().equals("w")) {
+            	System.out.println("Illegal move, try again");
                 continue;
             }
 
