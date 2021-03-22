@@ -1,6 +1,5 @@
 package chess;
 
-import java.util.Scanner;
 
 /**
  * Main class that creates a game instance and starts the chess game.

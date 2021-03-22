@@ -70,7 +70,8 @@ public abstract class Piece {
     /**
      * Creates and returns a list that contains the squares that form a path from
      * the current square to the destination square based on the type of piece on
-     * the current square.
+     * the current square. Path does not include cur or dest squares only the
+     * squares in between the two.
      * 
      * @param board Contains the state of all of the squares/pieces on the board.
      * @param cur   The currently selected square.

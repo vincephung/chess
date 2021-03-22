@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import pieces.King;
-import pieces.Knight;
 import pieces.Pawn;
 import pieces.Piece;
 
@@ -155,6 +154,7 @@ public class Game {
             whiteTurn = !whiteTurn;
 
         }
+        sc.close();
     }
 
     /**
