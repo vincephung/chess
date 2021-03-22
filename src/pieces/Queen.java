@@ -57,7 +57,7 @@ public class Queen extends Piece {
             }
         }
         else if(rowDistance == 0) {
-            int pathLength = colDistance;
+            int pathLength = Math.abs(colDistance);
             for(int i = 0; i < pathLength-1; i++) {
                 Piece curPiece;
                 
@@ -70,7 +70,7 @@ public class Queen extends Piece {
             }
         }
         else {
-            int pathLength = rowDistance;
+            int pathLength = Math.abs(rowDistance);
             for(int i = 0; i < pathLength-1; i++) {
                 Piece curPiece;
                 

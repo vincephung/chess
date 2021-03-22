@@ -24,9 +24,6 @@ public class Bishop extends Piece {
         super(color);
     }
 
-    /**
-     * Returns true if the piece on current square moves in a diagonal direction.
-     */
     @Override
     public boolean validMove(Board boardObject, Square cur, Square dest) {
 

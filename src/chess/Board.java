@@ -35,7 +35,7 @@ public class Board {
             board[6][col] = new Square(6, col, new Pawn("b"));
         }
 
-       /* board[0][0] = new Square(0, 0, new Rook("w"));
+        board[0][0] = new Square(0, 0, new Rook("w"));
         board[0][1] = new Square(0, 1, new Knight("w"));
         board[0][2] = new Square(0, 2, new Bishop("w"));
         board[0][3] = new Square(0, 3, new Queen("w"));
@@ -51,10 +51,11 @@ public class Board {
         board[7][4] = new Square(7, 4, new King("b"));
         board[7][5] = new Square(7, 5, new Bishop("b"));
         board[7][6] = new Square(7, 6, new Knight("b"));
-        board[7][7] = new Square(7, 7, new Rook("b"));*/
+        board[7][7] = new Square(7, 7, new Rook("b"));
         
         
         
+        /*
         //castling test board
         board[0][0] = new Square(0, 0, null);
         board[0][1] = new Square(0, 1, null);
@@ -74,7 +75,7 @@ public class Board {
         board[7][6] = new Square(7, 6, null);
         board[7][7] = new Square(7, 7, null);
 
-
+*/
         for (int row = 2; row < 6; row++) {
             for (int col = 0; col < 8; col++) {
                 board[row][col] = new Square(row, col, null);
