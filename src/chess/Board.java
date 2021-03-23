@@ -52,7 +52,7 @@ public class Board {
         board[7][5] = new Square(7, 5, new Bishop("b"));
         board[7][6] = new Square(7, 6, new Knight("b"));
         board[7][7] = new Square(7, 7, new Rook("b"));
-
+        
         for (int row = 2; row < 6; row++) {
             for (int col = 0; col < 8; col++) {
                 board[row][col] = new Square(row, col, null);

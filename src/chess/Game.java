@@ -6,6 +6,7 @@ import java.util.Scanner;
 import pieces.King;
 import pieces.Pawn;
 import pieces.Piece;
+import pieces.Rook;
 
 /**
  * Game represents an instance of a chess game Contains method that controls the
@@ -116,6 +117,14 @@ public class Game {
 
             // If move was valid, move the piece
             movePiece(board, curSquare, destSquare);
+            
+            //Check if rook/king moved (used for castling).
+            if(curPiece instanceof Rook) {
+                ((Rook) curPiece).hasMoved = true;
+            }
+            if(curPiece instanceof King) {
+                ((King) curPiece).hasMoved = true;
+            }
 
             // handle possible enpassant
             if (boardObject.getEnpassant() != null) {

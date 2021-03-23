@@ -38,7 +38,8 @@ public class King extends Piece{
         	//check for possible castling
         	if(rowDistance == 0 && colDistance == 2) {
         		if(!boardObject.isUnderAttack(cur, enemyColor) && isCastling(boardObject, cur, dest)) {
-        			hasMoved = true;
+        			System.out.println("this ran");
+        		    hasMoved = true;
         			return true;
         		}
         		else return false;
@@ -50,7 +51,6 @@ public class King extends Piece{
         
         //otherwise if not blocked path is valid
         if(!pathBlocked(board, cur, dest)) {
-        	hasMoved = true;
         	return true;
         }
         else {

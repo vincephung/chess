@@ -34,7 +34,6 @@ public class Rook extends Piece {
         if ((rowDistance != 0 && colDistance == 0) || (rowDistance == 0 && colDistance != 0)) {
             // only valid if path unblocked
             if (!pathBlocked(board, cur, dest)) {
-                hasMoved = true;
                 return true;
             } else {
                 return false;
