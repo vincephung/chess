@@ -5,13 +5,21 @@ import java.util.ArrayList;
 import chess.Board;
 import chess.Square;
 
+/**
+ * Rook is a subclass of the abstract class Piece. A Rook can move vertically or horizontally in any direction.
+ * @author willmcf
+ *
+ */
 public class Rook extends Piece {
 
     public boolean hasMoved = false;
 
+    /**
+     * Constructor that initializes a Rook Object
+     * @param color Color of the Rook
+     */
     public Rook(String color) {
         super(color);
-        // TODO Auto-generated constructor stub
     }
 
     @Override

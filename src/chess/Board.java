@@ -121,8 +121,6 @@ public class Board {
      * destination square successfully. Does not check if the move puts their King
      * in check.
      * 
-     * @param board      Contains the state of all of the squares/pieces on the
-     *                   board.
      * @param curSquare  The currently selected square.
      * @param destSquare The destination square that the user wants to move to.
      * @return true if the piece on curSquare can successfully move to destSquare.
@@ -182,16 +180,33 @@ public class Board {
         }
         return list;
     }
-
+    /**
+     * Accessor method that returns the current Enpassant square.
+     * 
+     * @return enpassant or NULL if there is no current enpassant square
+     */
     public Square getEnpassant() {
         return enpassant;
     }
 
+    /**
+     * Mutator method that changes the enpassant field to the parameter.
+     * 
+     * @param piece Square representing the new Enpassant
+     */
     public void setEnpassant(Square piece) {
         enpassant = piece;
 
     }
     
+    /**
+     * Method that determines whether the Square curSquare would be able to be attacked
+     * by a piece of enemyColor
+     *  
+     * @param curSquare The Square in question
+     * @param enemyColor The color of the enemy/opponent
+     * @return true if curSquare can be attacked or false otherwise
+     */
     public boolean isUnderAttack(Square curSquare, String enemyColor) {
      
         ArrayList<Square> enemySquares = getSquares(enemyColor);

@@ -5,13 +5,22 @@ import java.util.ArrayList;
 import chess.Board;
 import chess.Square;
 
+/**
+ * Pawn is a subclass of the abstract class Piece. A pawn can only move one spot forward unless it is its first move, then it can move two spots forward. Additionally, a pawn can move forward diagonally when performing an enpassant move or a capture.
+ * @author William McFarland
+ * @author Vincent Phung
+ *
+ */
 public class Pawn extends Piece {
     boolean firstMove = true;
     boolean enpassant = false;
 
+    /**
+     * initializes a Pawn Piece
+     * @param color Color of the Pawn
+     */
     public Pawn(String color) {
         super(color);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -104,6 +113,12 @@ public class Pawn extends Piece {
         return false;
     }
 
+    /**
+     * method that returns a new piece of the given type and color when a pawn is promoted
+     * @param type Char representing the type of the desired piece after promotion
+     * @param color Color of the niew Piece representing the promotion
+     * @return Piece object representing the Pawn after promotion
+     */
     public Piece promotion(char type, String color) {
         Piece newPiece = null;
         switch (Character.toUpperCase(type)) {
@@ -126,6 +141,7 @@ public class Pawn extends Piece {
         return newPiece;
     }
 
+    @Override
     public String toString() {
         return this.getColor() + "p";
     }

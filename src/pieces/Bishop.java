@@ -70,6 +70,8 @@ public class Bishop extends Piece {
         return false;
     }
 
+    //prints the string representation of a Bishop which is its color followed by B
+    @Override
     public String toString() {
         return this.getColor() + "B";
     }

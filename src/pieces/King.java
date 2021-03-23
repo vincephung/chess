@@ -5,13 +5,22 @@ import java.util.ArrayList;
 import chess.Board;
 import chess.Square;
 
+/**
+ * King is a subclass of the abstract class Piece. A King can move one spot in any direction in addition to being able to perform a castling
+ * @author William McFarland
+ * @author Vincent Phung
+ *
+ */
 public class King extends Piece{
 
 	public boolean hasMoved = false;
 	
+	/**
+	 * initializes a King piece
+	 * @param color Color to give King piece
+	 */
     public King(String color) {
         super(color);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -50,6 +59,13 @@ public class King extends Piece{
         
     }
     
+    /**
+     * method to check if a particular king move is a castling
+     * @param boardObject Board being used
+     * @param cur Square that the piece is currently on
+     * @param dest Square that the piece is trying to move to
+     * @return True if the move is a valid castling, false if otherwise
+     */
     public boolean isCastling(Board boardObject, Square cur, Square dest) {
     	
     	Square[][] board = boardObject.board;
@@ -197,6 +213,7 @@ public class King extends Piece{
         
     }
     
+    @Override
     public String toString() {
         return this.getColor() + "K";
     }

@@ -59,7 +59,7 @@ public abstract class Piece {
      * Determines whether the current type of piece can move from cur to dest based
      * on the chess rules for each piece.
      * 
-     * @param boardClass An instance of the board class.
+     * @param boardObj 	 An instance of the board class.
      * @param cur        The currently selected square.
      * @param dest       The destination square that the user wants to move to.
      * @return True if the piece on the current square can successfully move to the

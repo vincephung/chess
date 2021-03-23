@@ -57,6 +57,8 @@ public class Square {
     
     /**
      * Setter method to change the current piece on the square.
+     * 
+     * @param piece New Piece on the square
      */
     public void setPiece(Piece piece) {
     	this.piece = piece;
@@ -79,6 +81,7 @@ public class Square {
     /**
      * Prints out the piece on the square.
      */ 
+    @Override
     public String toString() {
         return piece.toString();
     }

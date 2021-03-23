@@ -5,11 +5,20 @@ import java.util.ArrayList;
 import chess.Board;
 import chess.Square;
 
+/**
+ * Queen is a subclass of the abstract class Piece. A Queen can move in any direction
+ * @author William McFarland
+ * @author Vincent Phung
+ *
+ */
 public class Queen extends Piece {
 
+	/**
+	 * Constructor that initializes a Queen object
+	 * @param color Color of the Queen
+	 */
     public Queen(String color) {
         super(color);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -29,6 +38,7 @@ public class Queen extends Piece {
 
     }
 
+    @Override
     public String toString() {
         return this.getColor() + "Q";
     }

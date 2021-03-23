@@ -5,11 +5,24 @@ import java.util.ArrayList;
 import chess.Board;
 import chess.Square;
 
+/**
+ * Knight is a subclass of the abstract class Piece. A knight can move three spots
+ * where two of the spots are horizontal in the same direction and the other spot is vertical
+`* in any direction and vice versa.
+ *
+ * @author William McFarland
+ * @author Vincent Phung
+ *
+ */
+
 public class Knight extends Piece{
 
+	/**
+	 * initializes a Knight piece
+	 * @param color Color of the Knight
+	 */
     public Knight(String color) {
         super(color);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -29,6 +42,7 @@ public class Knight extends Piece{
         }
     }
     
+    @Override
     public String toString() {
         return this.getColor() + "N";
     }
