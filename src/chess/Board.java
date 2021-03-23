@@ -52,36 +52,13 @@ public class Board {
         board[7][5] = new Square(7, 5, new Bishop("b"));
         board[7][6] = new Square(7, 6, new Knight("b"));
         board[7][7] = new Square(7, 7, new Rook("b"));
-        
-        
-        
-        /*
-        //castling test board
-        board[0][0] = new Square(0, 0, null);
-        board[0][1] = new Square(0, 1, null);
-        board[0][2] = new Square(0, 2, null);
-        board[0][3] = new Square(0, 3, null);
-        board[0][4] = new Square(0, 4, new King("w"));
-        board[0][5] = new Square(0, 5, null);
-        board[0][6] = new Square(0, 6, null);
-        board[0][7] = new Square(0, 7, null);
-        
-        board[7][0] = new Square(7, 0, null);
-        board[7][1] = new Square(7, 1, null);
-        board[7][2] = new Square(7, 2, null);
-        board[7][3] = new Square(7, 3, null);
-        board[7][4] = new Square(7, 4, new King("b"));
-        board[7][5] = new Square(7, 5, null);
-        board[7][6] = new Square(7, 6, null);
-        board[7][7] = new Square(7, 7, null);
 
-*/
         for (int row = 2; row < 6; row++) {
             for (int col = 0; col < 8; col++) {
                 board[row][col] = new Square(row, col, null);
             }
         }
-        
+
         enpassant = null;
     }
 
@@ -96,15 +73,15 @@ public class Board {
                 } else {
                     if (i % 2 == 0) {
                         if (j % 2 == 0) {
-                            System.out.print("   ");
-                        } else {
                             System.out.print("## ");
+                        } else {
+                            System.out.print("   ");
                         }
                     } else {
                         if (j % 2 == 0) {
-                            System.out.print("## ");
-                        } else {
                             System.out.print(("   "));
+                        } else {
+                            System.out.print("## ");
                         }
                     }
                 }
@@ -180,6 +157,7 @@ public class Board {
         }
         return list;
     }
+
     /**
      * Accessor method that returns the current Enpassant square.
      * 
@@ -198,17 +176,17 @@ public class Board {
         enpassant = piece;
 
     }
-    
+
     /**
-     * Method that determines whether the Square curSquare would be able to be attacked
-     * by a piece of enemyColor
-     *  
-     * @param curSquare The Square in question
+     * Method that determines whether the Square curSquare would be able to be
+     * attacked by a piece of enemyColor
+     * 
+     * @param curSquare  The Square in question
      * @param enemyColor The color of the enemy/opponent
      * @return true if curSquare can be attacked or false otherwise
      */
     public boolean isUnderAttack(Square curSquare, String enemyColor) {
-     
+
         ArrayList<Square> enemySquares = getSquares(enemyColor);
         for (Square attacker : enemySquares) {
             if (canMove(attacker, curSquare)) {

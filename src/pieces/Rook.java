@@ -7,8 +7,8 @@ import chess.Square;
 
 /**
  * Rook is a subclass of the abstract class Piece. A Rook can move vertically or horizontally in any direction.
- * @author willmcf
- *
+ * @author William McFarland
+ * @author Vincent Phung
  */
 public class Rook extends Piece {
 
