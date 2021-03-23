@@ -14,6 +14,9 @@ import chess.Square;
  *
  */
 public abstract class Piece {
+    /**
+     * Color of the current piece.
+     */
     private String color;
 
     /**

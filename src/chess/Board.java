@@ -21,7 +21,13 @@ import pieces.Rook;
 
 public class Board {
 
-    public Square[][] board = new Square[8][8];
+    /**
+     * 8x8 array of squares that contain chess pieces
+     */
+    public Square[][] board = new Square[8][8]; 
+    /**
+     * Current Enpassant square.
+     */
     private Square enpassant;
 
     /**

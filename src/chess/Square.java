@@ -11,8 +11,17 @@ import pieces.Piece;
  *
  */
 public class Square {
+    /**
+     * The piece on the current square.
+     */
     Piece piece;
+    /**
+     * The row of the board that this square is on.
+     */
     int row;
+    /**
+     * The column of the board that this square is on.
+     */
     int col;
     
     /**

@@ -13,6 +13,9 @@ import chess.Square;
  */
 public class King extends Piece{
 
+	/**
+	 * Boolean to represent if the King has moved from its initial spot.
+	 */
 	public boolean hasMoved = false;
 	
 	/**

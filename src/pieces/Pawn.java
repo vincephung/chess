@@ -12,7 +12,13 @@ import chess.Square;
  *
  */
 public class Pawn extends Piece {
+    /**
+     * Boolean to represent if this pawn has not moved yet.
+     */
     boolean firstMove = true;
+    /**
+     * Boolean to represent if this pawn has a valid enpassant.
+     */
     boolean enpassant = false;
 
     /**

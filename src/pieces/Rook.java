@@ -12,6 +12,9 @@ import chess.Square;
  */
 public class Rook extends Piece {
 
+    /**
+     * Boolean to represent if this rook has moved from its initial spot.
+     */
     public boolean hasMoved = false;
 
     /**

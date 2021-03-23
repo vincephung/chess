@@ -17,11 +17,29 @@ import pieces.Rook;
  *
  */
 public class Game {
+    /**
+     * Instance of the board class.
+     */
     Board boardObject;
+    /**
+     * Array of squares to represent the actual board with pieces on it.
+     */
     Square[][] board;
+    /**
+     * Boolean to represent if it is white or black's turn.
+     */
     boolean whiteTurn;
+    /**
+     * Boolean to represent if a draw was offered.
+     */
     boolean drawOffer;
+    /**
+     * Boolean to represent if the game is over.
+     */
     boolean gameOver;
+    /**
+     * The previous enpassant square.
+     */
     Square prevEnpassant;
 
     /**
