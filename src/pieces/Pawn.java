@@ -7,6 +7,7 @@ import chess.Square;
 
 /**
  * Pawn is a subclass of the abstract class Piece. A pawn can only move one spot forward unless it is its first move, then it can move two spots forward. Additionally, a pawn can move forward diagonally when performing an enpassant move or a capture.
+ * 
  * @author William McFarland
  * @author Vincent Phung
  *
@@ -15,7 +16,7 @@ public class Pawn extends Piece {
     /**
      * Boolean to represent if this pawn has not moved yet.
      */
-    boolean firstMove = true;
+    public boolean firstMove = true;
     /**
      * Boolean to represent if this pawn has a valid enpassant.
      */
@@ -23,6 +24,7 @@ public class Pawn extends Piece {
 
     /**
      * initializes a Pawn Piece
+     * 
      * @param color Color of the Pawn
      */
     public Pawn(String color) {
@@ -74,7 +76,6 @@ public class Pawn extends Piece {
         	//if not first turn then invalid
         	if(firstMove) {
         		if(!pathBlocked(board, cur, dest)) {
-        			firstMove = false;
         			//mark enpassant as true for passed over space
         			boardClass.setEnpassant(board[dest.getRow()-direction][dest.getCol()]);
         			return true;
@@ -88,7 +89,6 @@ public class Pawn extends Piece {
         //check for 1 space move
         else if(Math.abs(rowDistance) == 1 && colDistance == 0) {
         	if(!pathBlocked(board, cur, dest)) {
-        		firstMove = false;
         		return true;
         	}
         	else {
@@ -121,6 +121,7 @@ public class Pawn extends Piece {
 
     /**
      * method that returns a new piece of the given type and color when a pawn is promoted
+     * 
      * @param type Char representing the type of the desired piece after promotion
      * @param color Color of the niew Piece representing the promotion
      * @return Piece object representing the Pawn after promotion

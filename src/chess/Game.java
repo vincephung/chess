@@ -143,6 +143,9 @@ public class Game {
             if(curPiece instanceof King) {
                 ((King) curPiece).hasMoved = true;
             }
+            if(curPiece instanceof Pawn) {
+            	((Pawn) curPiece).firstMove = false;
+            }
 
             // handle possible enpassant
             if (boardObject.getEnpassant() != null) {

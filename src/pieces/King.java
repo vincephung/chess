@@ -7,6 +7,7 @@ import chess.Square;
 
 /**
  * King is a subclass of the abstract class Piece. A King can move one spot in any direction in addition to being able to perform a castling
+ * 
  * @author William McFarland
  * @author Vincent Phung
  *
@@ -20,6 +21,7 @@ public class King extends Piece{
 	
 	/**
 	 * initializes a King piece
+	 * 
 	 * @param color Color to give King piece
 	 */
     public King(String color) {
@@ -64,6 +66,7 @@ public class King extends Piece{
     
     /**
      * method to check if a particular king move is a castling
+     * 
      * @param boardObject Board being used
      * @param cur Square that the piece is currently on
      * @param dest Square that the piece is trying to move to

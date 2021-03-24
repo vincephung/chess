@@ -7,6 +7,7 @@ import chess.Square;
 
 /**
  * Rook is a subclass of the abstract class Piece. A Rook can move vertically or horizontally in any direction.
+ * 
  * @author William McFarland
  * @author Vincent Phung
  */
@@ -19,6 +20,7 @@ public class Rook extends Piece {
 
     /**
      * Constructor that initializes a Rook Object
+     * 
      * @param color Color of the Rook
      */
     public Rook(String color) {

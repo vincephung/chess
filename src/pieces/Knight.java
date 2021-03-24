@@ -19,6 +19,7 @@ public class Knight extends Piece{
 
 	/**
 	 * initializes a Knight piece
+	 * 
 	 * @param color Color of the Knight
 	 */
     public Knight(String color) {
